@@ -1,7 +1,7 @@
 // UPDATE THIS CODE!!!!!!
 // 
 
-import Student from './Student.js';
-import Course from './Course.js';
+import Student from './User.js';
+import Course from './Thought.js';
 
 export { Student, Course };
