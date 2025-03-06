@@ -4,24 +4,25 @@
 import { Router } from 'express';
 const router = Router();
 import {
-  getAllStudents,
-  getStudentById,
-  createStudent,
-  deleteStudent,
-  addAssignment,
-  removeAssignment,
+  getAllUsers,
+  getSingleUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  addFriend,
+  removeFriend,
 } from '../../controllers/userController.js';
 
-// /api/students
-router.route('/').get(getAllStudents).post(createStudent);
+// /api/users
+router.route('/').get(getAllUsers).post(createUser);
 
-// /api/students/:studentId
-router.route('/:studentId').get(getStudentById).delete(deleteStudent);
+// /api/users/:userId
+// MAY NEED TO UPDATE THIS ROUTE NAME
+router.route('/:userId').get(getSingleUser).put(updateUser).delete(deleteUser);
 
-// /api/students/:studentId/assignments
-router.route('/:studentId/assignments').post(addAssignment);
+// may want to add route for removing a user's associated thoughts when they are deleted
 
-// /api/students/:studentId/assignments/:assignmentId
-router.route('/:studentId/assignments/:assignmentId').delete(removeAssignment);
+// /api/users/:userId/friends/:friendId
+router.route('/:userId/friends/:friendId').post(addFriend).delete(removeFriend);
 
-export { router as studentRouter} ;
+export { router as userRouter } ;

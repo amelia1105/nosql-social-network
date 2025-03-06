@@ -3,21 +3,27 @@
 import { Router } from 'express';
 const router = Router();
 import {
-  getAllCourses,
-  getCourseById,
-  createCourse,
-  updateCourse,
-  deleteCourse,
-} from '../../controllers/courseController.js';
+  getAllThoughts,
+  getSingleThought,
+  createThought,
+  updateThought,
+  deleteThought,
+  addReaction,
+  removeReaction,
+} from '../../controllers/thoughtController.js';
 
-// /api/courses
-router.route('/').get(getAllCourses).post(createCourse);
 
-// /api/courses/:courseId
+// /api/thoughts
+router.route('/').get(getAllThoughts).post(createThought);
+
+// /api/thoughts/:thoughtId
+router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(deleteThought);
+
+// /api/thoughts/:thoughtId/reactions
+// MAYBE ADD A GET ROUTE HERE LIKE IN EXAMPLE?
 router
-  .route('/:courseId')
-  .get(getCourseById)
-  .put(updateCourse)
-  .delete(deleteCourse);
+  .route('/:thoughtId/reactions')
+  .post(addReaction);
+  .delete(removeReaction);
 
-export { router as courseRouter };
+export { router as thoughtRouter };
