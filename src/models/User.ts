@@ -3,70 +3,50 @@
 
 import { Schema, Types, model, type Document } from 'mongoose';
 
-interface IAssignment extends Document {
-    assignmentId: Schema.Types.ObjectId,
-    name: string,
-    score: number
+// Define the interface for the User model
+interface IUser extends Document {
+    username: string,
+    email: string,
+    thoughts?: Schema.Types.ObjectId[],
+    friends?: Schema.Types.ObjectId[]
 }
 
-interface IStudent extends Document {
-    first: string,
-    last: string,
-    github: string,
-    assignments: Schema.Types.ObjectId[]
-}
-
-const assignmentSchema = new Schema<IAssignment>(
-    {
-        assignmentId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
-        },
-        name: {
-            type: String,
-            required: true,
-            maxlength: 50,
-            minlength: 4,
-            default: 'Unnamed assignment',
-        },
-        score: {
-            type: Number,
-            required: true,
-            default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
-        },
-    },
-    {
-        timestamps: true,
-        _id: false
-    }
-);
-
-const studentSchema = new Schema<IStudent>({
-    first: {
+// Define the User schema
+const userSchema = new Schema<IUser>({
+    username: {
         type: String,
         required: true,
-        max_length: 50,
+        unique: true,
+        trim: true,
     },
-    last: {
+    email: {
         type: String,
         required: true,
-        max_length: 50,
+        unique: true,
+        match: [/.+@.+\..+/, 'Please enter a valid email address'],
     },
-    github: {
-        type: String,
-        required: true,
-        max_length: 50,
-    },
-    assignments: [assignmentSchema],
+    thoughts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Thought'
+    }],
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 },
     {
         toJSON: {
-            getters: true,
+            virtuals: true,
         },
-        timestamps: true
     }
 );
 
-const Student = model('Student', studentSchema);
+// Virtual property to get the length of the user's friends array field on query
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+});
 
-export default Student;
+// Initialize User model
+const User = model('User', userSchema);
+
+export default User;
