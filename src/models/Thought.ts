@@ -1,38 +1,55 @@
 // UPDATE THIS CODE!!!!!!
 
-import { Schema, model, type Document } from 'mongoose';
+import { Schema, model, Types, type Document } from 'mongoose';
 
-interface ICourse extends Document {
-    name: string,
-    inPerson: boolean,
-    start: Date,
-    end: Date,
-    students: Schema.Types.ObjectId[]
+interface IThought extends Document {
+    thoughtText: string,
+    createdAt: Date,
+    username: string,
+    reactions?: {
+        reactionId: Schema.Types.ObjectId,
+        reactionBody: string,
+        username: string,
+        createdAt: Date
+    }[],
 }
 
-const courseSchema = new Schema<ICourse>(
+const thoughtSchema = new Schema<IThought>(
     {
-        name: {
+        thoughtText: {
+            type: String,
+            required: 'Thought cannot be blank.',
+            minlength: 1,
+            maxlength: 280,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        username: {
             type: String,
             required: true,
         },
-        inPerson: {
-            type: Boolean,
-            default: true,
-        },
-        start: {
-            type: Date,
-            default: Date.now(),
-        },
-        end: {
-            type: Date,
-            // Sets a default value of 12 weeks from now
-            default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
-        },
-        students: [
+        reactions: [
             {
-                type: Schema.Types.ObjectId,
-                ref: 'student',
+                reactionId: {
+                    type: Schema.Types.ObjectId,
+                    default: () => new Types.ObjectId(),
+                },
+                reactionBody: {
+                    type: String,
+                    required: 'Reaction cannot be blank.',
+                    minlength: 1,
+                    maxlength: 280,
+                },
+                username: {
+                    type: String,  
+                    required: true,
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now,
+                },
             },
         ],
     },
@@ -44,6 +61,15 @@ const courseSchema = new Schema<ICourse>(
     },
 );
 
-const Course = model<ICourse>('Course', courseSchema);
 
-export default Course;
+// Use a getter method to format the timestamp on query ???
+
+// Virtual property to get the length of the thought's reactions array field on query
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+});
+
+// Initialize Thought model
+const Thought = model<IThought>('Thought', thoughtSchema);
+
+export default Thought;
