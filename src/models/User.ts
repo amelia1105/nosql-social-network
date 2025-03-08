@@ -1,7 +1,7 @@
 // UPDATE THIS CODE!!!!!!
 
 
-import { Schema, Types, model, type Document } from 'mongoose';
+import { Schema, model, type Document } from 'mongoose';
 
 // Define the interface for the User model
 interface IUser extends Document {
@@ -15,13 +15,13 @@ interface IUser extends Document {
 const userSchema = new Schema<IUser>({
     username: {
         type: String,
-        required: true,
+        required: 'Username is required.',
         unique: true,
         trim: true,
     },
     email: {
         type: String,
-        required: true,
+        required: 'Email address is required.',
         unique: true,
         match: [/.+@.+\..+/, 'Please enter a valid email address'],
     },
@@ -47,6 +47,6 @@ userSchema.virtual('friendCount').get(function () {
 });
 
 // Initialize User model
-const User = model('User', userSchema);
+const User = model<IUser>('User', userSchema);
 
 export default User;
