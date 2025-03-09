@@ -60,6 +60,17 @@ const thoughts = [
   'Coding is both an art and a science.',
 ];
 
+const reactions = [
+  '😆',
+  '😂',
+  '😍',
+  '🤩',
+  '🥳',
+  '🤓',
+  '😎',
+  '🤯',
+];
+
 // Get a random item given an array
 const getRandomArrItem = (arr: any) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -75,3 +86,24 @@ export const getRandomThoughts = (int: number) => {
   }
   return results;
 };
+
+// Generate random friends that we can add to user object
+export const getRandomFriends = (int: number, currentUser: string) => {
+  const results: string[] = [];
+  while (results.length < int) {
+    const friend = getRandomUsername();
+    if (friend !== currentUser && !results.includes(friend)) {
+      results.push(friend);
+    }
+  }
+  return results;
+};
+
+// Generate random reactions that we can add to thought object
+export const getRandomReactions = (int: number) => {
+  const results = [];
+  for (let i = 0; i < int; i++) {
+    results.push(getRandomArrItem(reactions));
+  }
+  return results;
+}
