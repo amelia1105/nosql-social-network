@@ -61,7 +61,7 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 };
 
-// DELETE user based on id
+// DELETE user based on id /api/users/:userId
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const user = await User.findByIdAndDelete(req.params.userId);
@@ -86,7 +86,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 };
 
-// POST to add a friend to a user's friend list
+// POST to add a friend to a user's friend list /api/users/:userId/friends/:friendId
 export const addFriend = async (req: Request, res: Response) => {
     try { 
         const user = await User.findByIdAndUpdate(
@@ -107,7 +107,7 @@ export const addFriend = async (req: Request, res: Response) => {
     }
 };
 
-// DELETE to remove a friend from a user's friend list
+// DELETE to remove a friend from a user's friend list /api/users/:userId/friends/:friendId
 export const removeFriend = async (req: Request, res: Response) => {
     try {
         const user = await User.findByIdAndUpdate(

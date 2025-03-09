@@ -23,7 +23,7 @@ router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(dele
 // MAYBE ADD A GET ROUTE HERE LIKE IN EXAMPLE?
 router
   .route('/:thoughtId/reactions')
-  .post(addReaction);
+  .post(addReaction)
   .delete(removeReaction);
 
 export { router as thoughtRouter };
