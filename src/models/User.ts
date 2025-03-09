@@ -15,13 +15,13 @@ interface IUser extends Document {
 const userSchema = new Schema<IUser>({
     username: {
         type: String,
-        required: 'Username is required.',
+        required: true,
         unique: true,
         trim: true,
     },
     email: {
         type: String,
-        required: 'Email address is required.',
+        required: true,
         unique: true,
         match: [/.+@.+\..+/, 'Please enter a valid email address'],
     },
@@ -43,7 +43,7 @@ const userSchema = new Schema<IUser>({
 
 // Virtual property to get the length of the user's friends array field on query
 userSchema.virtual('friendCount').get(function () {
-    return this.friends.length;
+    return this.friends?.length || 0;
 });
 
 // Initialize User model

@@ -18,7 +18,7 @@ const thoughtSchema = new Schema<IThought>(
     {
         thoughtText: {
             type: String,
-            required: 'Thought cannot be blank.',
+            required: true,
             minlength: 1,
             maxlength: 280,
         },
@@ -38,7 +38,7 @@ const thoughtSchema = new Schema<IThought>(
                 },
                 reactionBody: {
                     type: String,
-                    required: 'Reaction cannot be blank.',
+                    required: true,
                     minlength: 1,
                     maxlength: 280,
                 },
@@ -66,7 +66,7 @@ const thoughtSchema = new Schema<IThought>(
 
 // Virtual property to get the length of the thought's reactions array field on query
 thoughtSchema.virtual('reactionCount').get(function() {
-    return this.reactions.length;
+    return this.reactions?.length || 0;
 });
 
 // Initialize Thought model

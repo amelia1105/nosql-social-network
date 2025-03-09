@@ -6,7 +6,7 @@ import { User, Thought } from '../models/index.js';
 export const getAllUsers = async (_req: Request, res: Response) => {
     try {
         const users = await User.find(); 
-        res.json(users);
+        return res.json(users);
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
@@ -20,9 +20,9 @@ export const getSingleUser = async (req: Request, res: Response) => {
         const user = await
         User.findById(userId).populate('thoughts').populate('friends');
         if (user) {
-            res.json(user);
+            return res.json(user);
         } else {
-            res.status(404).json({
+            return res.status(404).json({
                 message: 'User not found'
             });
         }
@@ -36,7 +36,7 @@ export const getSingleUser = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user = await User.create(req.body);
-        res.json(user);
+        return res.json(user);
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
@@ -49,9 +49,9 @@ export const updateUser = async (req: Request, res: Response) => {
     try {
         const user = await User.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true });
         if (user) {
-            res.json(user);
+            return res.json(user);
         } else {
-            res.status(404).json({
+            return res.status(404).json({
                 message: 'User not found'
             });
         }
@@ -79,7 +79,7 @@ export const deleteUser = async (req: Request, res: Response) => {
             { $pull: { friends: new ObjectId(req.params.userId) } }
         );
 
-        res.json({ message: 'User and associated thoughts deleted!' });
+        return res.json({ message: 'User and associated thoughts deleted!' });
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
