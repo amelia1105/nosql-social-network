@@ -1,50 +1,44 @@
-import db from '../config/connection.js';
 import { User, Thought } from '../models/index.js';
-import cleanDB from './cleanDB.js';
-import { getRandomUsername, getRandomThoughts, getRandomFriends, getRandomReactions } from './data.js';
+import mongoose from 'mongoose';
+import { getRandomUsers, getRandomThoughts, getRandomReactions } from './data.js';
 
-try {
-  // Connect to the database and clean it
-  await db();
-  await cleanDB();
+const seedDatabase = async () => {
+    try {
+        // Clean the collections before seeding
+        await User.deleteMany({});
+        await Thought.deleteMany({});
+        
+        console.log('Database connected and collections cleaned.');
 
-  // Create empty array to hold the users
-  const users = [];
+        // Create users and insert them into the User collection
+        // Insert random users into the User collection
+        const users = await User.insertMany(getRandomUsers(4)); 
+        console.log('User collection seeded.');
 
-  // Loop 20 times -- add 20 users to the users array for testing
-  for (let i = 0; i < 20; i++) {
-    // Get some random thoughts and random usernames
-    const thoughts = getRandomThoughts(20);
-    const username = getRandomUsername();
-    const email = `${username}@example.com`;
+        // Create thoughts for each user and add reactions
+        await Thought.insertMany(users.flatMap(user =>
+            getRandomThoughts(3).map(thoughtText => ({
+                thoughtText,
+                username: user.username,
+                reactions: getRandomReactions(3),
+            }))
+        ));
 
-    users.push({
-      username,
-      email,
-      thoughts,
-      friends: getRandomFriends(5, username),
+        console.log('Thought collection seeded.');
+
+    } catch (error) {
+        console.error('Error seeding database:', error);
+    } finally {
+        mongoose.connection.close();
+    }
+};
+
+// Connect to the MongoDB database
+mongoose.connect('mongodb://localhost:27017/socialNetworkDB')
+    .then(() => {
+        console.log('Database connected.');
+        seedDatabase();
+    })
+    .catch((error) => {
+        console.error('Error connecting to the database:', error);
     });
-  }
-
-  // Add users to the collection and await the results
-  const userData = await User.create(users);
-
-  // Add thoughts to the collection and await the results
-  await Thought.create(
-    userData.map(({ username, thoughts }: { [key: string]: any }) => 
-      thoughts.map((thought: string) => ({
-        thoughtText: thought,
-        username,
-        reactions: getRandomReactions(3),
-      }))
-    ).flat()
-  );
-
-  // Log out the seed data to indicate what should appear in the database
-  console.table(users);
-  console.info('Seeding complete! 🌱');
-  process.exit(0);
-} catch (error) {
-  console.error('Error seeding database:', error);
-  process.exit(1);
-}
