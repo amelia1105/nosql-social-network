@@ -1,52 +1,50 @@
-// UPDATE THIS CODE!!!!!!
-// 
-// 
 import db from '../config/connection.js';
 import { User, Thought } from '../models/index.js';
 import cleanDB from './cleanDB.js';
-import { getRandomUsername, getRandomThoughts } from './data.js';
+import { getRandomUsername, getRandomThoughts, getRandomFriends, getRandomReactions } from './data.js';
 
 try {
+  // Connect to the database and clean it
   await db();
   await cleanDB();
 
-  // Create empty array to hold the students
-  const students = [];
+  // Create empty array to hold the users
+  const users = [];
 
-  // Loop 20 times -- add students to the students array
+  // Loop 20 times -- add 20 users to the users array for testing
   for (let i = 0; i < 20; i++) {
-    // Get some random assignment objects using a helper function that we imported from ./data
-    const assignments = getRandomAssignments(20);
+    // Get some random thoughts and random usernames
+    const thoughts = getRandomThoughts(20);
+    const username = getRandomUsername();
+    const email = `${username}@example.com`;
 
-    const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
-    const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
-
-    students.push({
-      first,
-      last,
-      github,
-      assignments,
+    users.push({
+      username,
+      email,
+      thoughts,
+      friends: getRandomFriends(5, username),
     });
   }
 
-  // Add students to the collection and await the results
-  const studentData = await Student.create(students);
+  // Add users to the collection and await the results
+  const userData = await User.create(users);
 
-  // Add courses to the collection and await the results
-  await Course.create({
-    name: 'UCLA',
-    inPerson: false,
-    students: [...studentData.map(({ _id }: { [key: string]: any }) => _id)],
-  });
+  // Add thoughts to the collection and await the results
+  await Thought.create(
+    userData.map(({ username, thoughts }: { [key: string]: any }) => 
+      thoughts.map((thought: string) => ({
+        thoughtText: thought,
+        username,
+        reactions: getRandomReactions(3),
+      }))
+    ).flat()
+  );
 
   // Log out the seed data to indicate what should appear in the database
-  console.table(students);
+  console.table(users);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 } catch (error) {
   console.error('Error seeding database:', error);
   process.exit(1);
 }
-
