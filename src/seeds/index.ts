@@ -2,9 +2,9 @@
 // 
 // 
 import db from '../config/connection.js';
-import { Course, Student } from '../models/index.js';
+import { User, Thought } from '../models/index.js';
 import cleanDB from './cleanDB.js';
-import { getRandomName, getRandomAssignments } from './data.js';
+import { getRandomUsername, getRandomThoughts } from './data.js';
 
 try {
   await db();
