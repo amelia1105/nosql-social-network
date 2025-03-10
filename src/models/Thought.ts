@@ -1,26 +1,24 @@
 // UPDATE THIS CODE!!!!!!
 
-import { Schema, model, Types, type Document } from 'mongoose';
+import mongoose, { Schema, model, type Document } from 'mongoose';
 
-interface IReaction extends Document {
-    reactionId: Schema.Types.ObjectId,
-    reactionBody: string,
-    username: string,
-    createdAt: Date,
-}
-
-interface IThought extends Document {
+export interface IThought extends Document {
     thoughtText: string,
     createdAt: Date,
     username: string,
-    reactions?: Schema.Types.ObjectId[]
+    reactions: {
+        reactionId: mongoose.Types.ObjectId,
+        reactionBody: string,
+        username: string,
+        createdAt: Date,
+    }[];
 }
 
-const reactionSchema = new Schema<IReaction>(
+const reactionSchema = new Schema(
     {
         reactionId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
+            type: mongoose.Types.ObjectId,
+            default: new mongoose.Types.ObjectId,
         },
         reactionBody: {
             type: String,
@@ -74,7 +72,7 @@ const thoughtSchema = new Schema<IThought>(
 
 // Virtual property to get the length of the thought's reactions array field on query
 thoughtSchema.virtual('reactionCount').get(function() {
-    return this.reactions?.length || 0;
+    return this.reactions.length || 0;
 });
 
 // Initialize Thought model
