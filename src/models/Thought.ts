@@ -78,7 +78,7 @@ const thoughtSchema = new Schema<IThought>(
             virtuals: true,
             getters: true,
             transform: (_doc, ret) => {
-                delete ret._id;  // Remove the `_id` field
+                delete ret.id;  // Remove the `_id` field
                 return ret;
             }
         },

@@ -82,7 +82,7 @@ export const deleteThought = async (req: Request, res: Response) => {
   try {
     const deletedThought = await Thought.findByIdAndDelete(thoughtId);
     if(deletedThought) {
-      res.json(deletedThought);
+      res.json({ message: 'Thought deleted' });
     } else {
       res.status(404).json({
         message: 'No thought found'
@@ -129,7 +129,7 @@ export const removeReaction = async (req: Request, res: Response) => {
     );
 
     if (updatedThought) {
-      return res.json(updatedThought);
+      return res.json({ message: 'Reaction deleted' });
     } else {
       return res.status(404).json({
         message: 'No thought or reaction found with this id!'

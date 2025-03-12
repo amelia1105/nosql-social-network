@@ -2,68 +2,98 @@
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+This project involves building an API for a social network application using Express.js, MongoDB, and the Mongoose ODM. The application supports user profiles, friends, and user-generated content called "thoughts" (similar to "posts" on Facebook). Users can also react to their friends' thoughts. Utilizing NoSQL databases like MongoDB is advantageous for social networks due to their ability to manage large volumes of unstructured data. This flexibility accommodates varying user information and interactions. During this project, I enhanced my development skills by working with a NoSQL database and gained proficiency in creating and testing routes using Insomnia.
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+## Table of Contents
 
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
+- [Walkthrough Video](#walkthrough-video)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
+- [Questions](#questions)
+
+## Walkthrough Video
+
+link here
 
 ## Installation
+1. Open your terminal and navigate to the directory where you want to store the repository.
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+2. Clone the repository to your local machine with the following command:
+
+    ```sh
+    git clone https://github.com/amelia1105/nosql-social-network.git
+    ```
+
+3. Navigate into the cloned repository's directory:
+
+    ```sh
+    cd nosql-social-network
+    ```
+
+4. Install the necessary dependencies by running:
+
+    ```sh
+    npm install
+    ```
 
 ## Usage
+To use this application, you need a method to connect to a MongoDB database, such as MongoDB Compass. This application uses the default MongoDB Compass connection string: `mongodb://localhost:27017/`. Additionally, Insomnia is used to test the application's routes, but other API testing platforms can be used.
 
-Provide instructions and examples for use. Include screenshots as needed.
+1. Ensure you are connected to the correct port in MongoDB Compass.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
+2. Navigate to the `nosql-social-network` directory and run the following command to build the application:
 
-    ```md
-    ![alt text](assets/images/screenshot.png)
+    ```sh
+    npm run build
     ```
+
+3. Seed the database. If successful, you will see a console message saying "Seeding complete! 🌱" along with details of the actions performed on the database:
+
+    ```sh
+    npm run seed
+    ```
+
+4. Start the application:
+
+    ```sh
+    npm run start
+    ```
+
+5. Use Insomnia (or another route testing tool) to create requests for the required information. Different information is available on various route paths. For example, to get all users, use the route `http://localhost:3001/api/users`. To get all thoughts, use the route `http://localhost:3001/api/thoughts`. Below is an image of an Insomnia request to get all users in the database. This image also includes the other requests that can be made with this application.
+
+![get all users in database](./assets/insomnia.png)
+
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
-
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
-
-Started with 28 Mini Project code
+Although no starter code was available for this project, I used one of our previous class assignments to get the general layout of my files and to get some of the boilerplate code. This code is found in the 17-NoSQL Mini Project (in GitLab, RUT-VIRT-FSF-PT-10-2024-U-LOLC > 17-NoSQL > 01-Activities > 28-Stu_Mini-Project, found [here](https://git.bootcampcontent.com/Rutgers-University/RUT-VIRT-FSF-PT-10-2024-U-LOLC)). The config connection.ts file is the same with the exception of the database name. The root server.ts and package.json are also the same. The controller files, models, routes, and seeds follow a similar structure to the Mini Project, but I developed each of these myself. I also created the .gitignore file. I used GitHub Copilot and ChatGPT for debugging and for fake data, especially in the seed files and models.
 
 ## License
 
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
+MIT License
 
----
+Copyright (c) 2025 Amelia Alvarado
 
-🏆 The previous sections are the bare minimum, and your project will ultimately determine the content of this document. You might also want to consider adding the following sections.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-## Badges
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-Badges aren't necessary, per se, but they demonstrate street cred. Badges let other developers know that you know what you're doing. Check out the badges hosted by [shields.io](https://shields.io/). You may not understand what they all represent now, but you will in time.
+## Questions
 
-## Features
-
-If your project has a lot of features, list them here.
-
-## How to Contribute
-
-If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so. The [Contributor Covenant](https://www.contributor-covenant.org/) is an industry standard, but you can always write your own if you'd prefer.
-
-## Tests
-
-Go the extra mile and write tests for your application. Then provide examples on how to run them here.
+For any questions about this project, please contact me by email: aebellanger@yahoo.com
