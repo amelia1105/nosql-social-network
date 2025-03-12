@@ -1,6 +1,3 @@
-// UPDATE THIS CODE!!!!!!
-
-
 import { Schema, Types, model, type Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -34,6 +31,10 @@ const userSchema = new Schema<IUser>({
 }, {
     toJSON: {
         virtuals: true,
+        transform: (_doc, ret) => {
+            delete ret.id;  // Remove the `id` field
+            return ret;
+        },
     },
 });
 
