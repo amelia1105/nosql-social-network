@@ -119,28 +119,24 @@ export const addReaction = async (req: Request, res: Response) => {
   }
 };
 
-// DELETE reaction from thought /api/thoughts/:thoughtId/reactions
+// DELETE reaction from thought /api/thoughts/:thoughtId/reactions/:reactionId
 export const removeReaction = async (req: Request, res: Response) => {
-  const { thoughtId } = req.params;
-  const { reactionId } = req.body;
   try {
-    const updatedThought = await Thought.findByIdAndUpdate
-    (
-      thoughtId,
-      { $pull: { reactions: { reactionId } } },
+    const updatedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { new: true }
     );
+
     if (updatedThought) {
-      res.json(updatedThought);
-    }
-    else {
-      res.status(404).json({
-        message: 'No thought found'
+      return res.json(updatedThought);
+    } else {
+      return res.status(404).json({
+        message: 'No thought or reaction found with this id!'
       });
     }
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message
-    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
   }
 };

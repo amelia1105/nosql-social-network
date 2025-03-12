@@ -1,5 +1,3 @@
-// UPDATE THIS CODE!!!!!!
-
 import { Router } from 'express';
 const router = Router();
 import {
@@ -20,10 +18,9 @@ router.route('/').get(getAllThoughts).post(createThought);
 router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reactions
-// MAYBE ADD A GET ROUTE HERE LIKE IN EXAMPLE?
-router
-  .route('/:thoughtId/reactions')
-  .post(addReaction)
-  .delete(removeReaction);
+router.route('/:thoughtId/reactions').post(addReaction);
+
+// /api/thoughts/:thoughtId/reactions/:reactionId
+router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
 
 export { router as thoughtRouter };
