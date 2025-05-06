@@ -96,4 +96,4 @@ SOFTWARE.
 
 ## Questions
 
-For any questions about this project, please contact me by email: aebellanger@yahoo.com
+For any questions about this project, please contact me by email: ameliabalvarado@gmail.com
