@@ -6,16 +6,11 @@ This project involves building an API for a social network application using Exp
 
 ## Table of Contents
 
-- [Walkthrough Video](#walkthrough-video)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
 - [Questions](#questions)
-
-## Walkthrough Video
-
-https://www.loom.com/share/17b7a7b872b34bb3ad81b59b3be44896?sid=18eba730-0789-4c61-b0c4-db66f3952d21
 
 ## Installation
 1. Open your terminal and navigate to the directory where you want to store the repository.
